@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Memorama Caricia de Caléndula</title>
+
+<link rel="stylesheet" href="estilos.css">
+
+</head>
+
+<body>
+
+<div id="barra">
+
+<div id="texto">
+Caricia de Caléndula | Sigue así
+</div>
+
+</div>
+
+<div id="menu">
+
+<a href="file:///C:/Users/maxip/OneDrive/Desktop/pagina%20de%20equipo/index.html" class="btn">Principal</a>
+
+<a href="file:///C:/Users/maxip/Downloads/llamanos/llamanos/index.html" class="btn">Contacto</a>
+
+<a href="file:///C:/Users/maxip/Downloads/conocenos/conocenos/index.html" class="btn">Conócenos</a>
+
+<a href="file:///C:/Users/maxip/Downloads/calendula1/calendula/index.html" class="btn">Planta y sus beneficios</a>
+
+<a href="file:///C:/Users/maxip/OneDrive/Desktop/trabajo%20de%20eddie/producto.html" class="btn">Producto</a>
+
+<a href="file:///C:/Users/maxip/Downloads/proyecto/proyecto/index.html" class="btn">Experiencia</a>
+
+<a href="file:///C:/Users/maxip/Downloads/calendula%20joshua1/calendula%20joshua/index.html" class="btn">Reproducción de plantas y uso</a>
+
+<a href="file:///C:/Users/maxip/Downloads/memorama/memorama.html" class="btn">Juego memorama</a>
+
+</div>
+
+<div id="mensaje"></div>
+
+<div id="tablero"></div>
+
+<div class="reinicio">
+
+<button onclick="location.reload()">
+Jugar de nuevo
+</button>
+
+</div>
+
+<img src="img/mosterdeco.gif" class="monster m1">
+
+<img src="img/mosterdeco.gif" class="monster m2">
+
+<script>
+
+const imagenes=[
+"memorama1.jpg",
+"memorama2.jpg",
+"memorama3.jpg",
+"memorama4.jpg",
+"memorama5.jpg",
+"memorama6.jpg"
+];
+
+let cartas=[...imagenes,...imagenes];
+
+cartas.sort(()=>Math.random()-0.5);
+
+const tablero=document.getElementById("tablero");
+
+const mensaje=document.getElementById("mensaje");
+
+let seleccion=[];
+
+let bloqueado=false;
+
+function aviso(txt){
+
+mensaje.innerText=txt;
+
+mensaje.style.display="block";
+
+setTimeout(()=>mensaje.style.display="none",1200);
+
+}
+
+cartas.forEach(img=>{
+
+let div=document.createElement("div");
+
+div.classList.add("carta");
+
+div.innerHTML=`<img src="img/${img}">`;
+
+div.onclick=()=>{
+
+if(
+bloqueado ||
+div.classList.contains("mostrar") ||
+div.classList.contains("bien")
+)return;
+
+div.classList.add("mostrar");
+
+seleccion.push(div);
+
+if(seleccion.length===2){
+
+bloqueado=true;
+
+setTimeout(verificar,800);
+
+}
+
+};
+
+tablero.appendChild(div);
+
+});
+
+function verificar(){
+
+let [a,b]=seleccion;
+
+let imgA=a.querySelector("img").src;
+
+let imgB=b.querySelector("img").src;
+
+if(imgA===imgB){
+
+a.classList.add("bien");
+
+b.classList.add("bien");
+
+aviso("Sigue así");
+
+}else{
+
+a.classList.remove("mostrar");
+
+b.classList.remove("mostrar");
+
+aviso("Sigue así");
+
+}
+
+seleccion=[];
+
+bloqueado=false;
+
+if(document.querySelectorAll(".bien").length===cartas.length){
+
+aviso("Ganaste");
+
+}
+
+}
+
+for(let i=0;i<25;i++){
+
+let e=document.createElement("img");
+
+e.src="img/estrelladeco.gif";
+
+e.classList.add("estrella");
+
+e.style.left=Math.random()*100+"vw";
+
+e.style.animationDuration=(3+Math.random()*5)+"s";
+
+document.body.appendChild(e);
+
+}
+
+</script>
+
+</body>
+</html>
